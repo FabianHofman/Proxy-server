@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Proxy_server.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,9 +22,21 @@ namespace Proxy_server
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly ProxyServerViewModel _proxyServerViewModel;
+
         public MainWindow()
         {
+            _proxyServerViewModel = new ProxyServerViewModel();
+            DataContext = _proxyServerViewModel;
+
             InitializeComponent();
+        }
+
+        // Validate input for numbers
+        public void CheckIfNumber(object sender, TextCompositionEventArgs textCompositionEventArgs)
+        {
+            Regex isNumberRegex = new Regex("[^0-9]+");
+            textCompositionEventArgs.Handled = isNumberRegex.IsMatch(textCompositionEventArgs.Text);
         }
     }
 }
